@@ -16,29 +16,39 @@ module.exports = (sequelize) => {
   return sequelize.define("recipe", {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1, //  UUIDV1: A default unique universal identifier generated following the UUID v1 standard
+      defaultValue: DataTypes.UUIDV1,
       primaryKey: true,
     },
-    // APIid: {
-    //   type: DataTypes.BIGINT,
-    //   // Si es nul puede ser una receta inventada, por eso no lo agrego
-    // },
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    resumenDelPlato: {
-      type: DataTypes.STRING,
+    summary: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
-    puntuacion: {
+    score: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
+      validate: {
+        max: 100,
+        min: 0,
+      },
     },
-    nivelDeComidaSaludable: {
-      type: DataTypes.STRING,
+    healthScore: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+      validate: {
+        max: 100,
+        min: 0,
+      },
     },
-    pasoAPaso: {
-      type: DataTypes.STRING,
+    steps: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      allowNull: true,
+    },
+    image: {
+      type: DataTypes.TEXT,
     },
   });
 };

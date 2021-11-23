@@ -7,8 +7,8 @@ var express = require("express");
 var router = express.Router();
 const axios = require("axios");
 const { Recipe, Diet } = require("../db");
-const getRecipes = require("../axios/getRecipes");
-
+// const getRecipes = require("../axios/getRecipes");
+const { setRecipe } = require("../funciones/funciones");
 const { API_KEY, API_KEY2 } = process.env;
 // console.log(API_KEY);
 
@@ -33,81 +33,96 @@ router.get("/", async (req, res) => {
         const response = results.data;
         dataRecibida = results;
         res.send(response);
-        // console.log(results);
       });
-    // .then((data) => console.log(data));
-
-    // console.log(results.data);
   } catch (error) {
     console.log("ERROR al obtener todas las recetas en el path  ", "/");
+    res.send(error);
   } finally {
-    // console.log(dataRecibida);
     for (let i = 0; i < dataRecibida.data.results.length; i++) {
-      let newRecipe = await Recipe.create({
-        name: dataRecibida.data.results[i].title,
+      // Agrego las 100 peticiones a la base de datos;
+      await Recipe.create({
+        title: dataRecibida.data.results[i].title,
         summary: dataRecibida.data.results[i].summary,
         score: dataRecibida.data.results[i].spoonacularScore,
         healthScore: dataRecibida.data.results[i].healthScore,
         steps: dataRecibida.data.results[i].analyzedInstructions.steps,
+        diets: dataRecibida.data.results[i].diets,
       });
-      console.log(newRecipe);
-      await newRecipe.save();
     }
   }
-  // // -------------------------------------------------------------
-
-  // console.log(dataRecibida.data.results[0]);
-  // console.log("id: " + dataRecibida.data.results[0].id);
-  // console.log("title: " + dataRecibida.data.results[0].title);
-  // console.log("summary: " + dataRecibida.data.results[0].summary);
-  // console.log(
-  //   "spoonacularScore: " + dataRecibida.data.results[0].spoonacularScore
-  // );
-  // console.log("healthScore: " + dataRecibida.data.results[0].healthScore);
-  // console.log("steps: " + dataRecibida.data.results[0].analyzedInstructions.steps);
-
-  //-------------- Ahora guardo todo en la base de datos------------
 });
 
-router.get("/recipes/:id", async (req, res) => {
-  // LISTO
-  const id = req.params.id;
-  console.log("El parametro pasado por URL es: " + id);
-  // try {
-  axios
-    .get(
-      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`
-    )
-    .then((results) => {
-      // console.log(results);
-      res.send(results.data);
-      return results;
-    })
-    .catch((error) => {
-      res.send(error);
-      throw new Error("Error GET en el path/:id :", error);
-    });
-});
+// router.get("/recipes/:id", async (req, res) => {
+//   // LISTO
+//   const id = req.params.id;
+//   console.log("El parametro pasado por URL es: " + id);
+//   // try {
+//   axios
+//     .get(
+//       `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`
+//     )
+//     .then((results) => {
+//       // console.log(results);
+//       res.send(results.data);
+//       return results;
+//     })
+//     .catch((error) => {
+//       res.send(error);
+//       throw new Error("Error GET en el path/:id :", error);
+//     });
+// });
 
-router.get("/recipes", async function (req, res) {
-  var queryData = req.query.name;
-  if (queryData) {
-    // console.log(req.query.name);
-    var instancias = [];
-    try {
-      instancias = await Recipe.findAll().then((recipe) => res.send(recipe));
-      // console.log("Recipe:    " + Recipe);
-    } catch (error) {
-      //
-      instancias = error;
-      console.log("ERROR: " + instancias);
-    } finally {
-      console.log("Recetas:  " + instancias);
-      res.json(instancias); // corre y muestra el valor de query pero tira un warning/error de promesa sin handler
-    }
-  } else {
-    res.send("Entre a recipes pero sin valor en query.name");
-  }
-});
+// router.get("/recipes", async function (req, res) {
+//   var queryData = req.query.name;
+//   if (queryData) {
+//     console.log(req.query.name);
+//     try {
+//       axios
+//         .get(
+//           `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&name=${queryData}`
+//         )
+//         .then((results) => {
+//           console.log(results.data.results);
+//           res.send(results.data.results);
+//         });
+//     } catch (error) {
+//       res.send(error);
+//       throw new Error("Error GET en el path/:id :", error);
+//     }
+//   } else {
+//     res.send("Entre a recipes pero sin valor en query.name");
+//   }
+// });
+
+// router.get("/types", async (req, res) => {
+//   let dietas = await Diet.findAll();
+//   let response = [];
+//   dietas.map((elem) => response.push(elem.dataValues.name));
+//   res.send(response);
+//   console.log(response);
+// });
+
+// router.post("/recipe", async (req, res) => {
+//   let { title, summary, score, healthScore, steps, image, diets } = req.body;
+//   if (title && summary && score && healthScore && steps && image && diets) {
+//     try {
+//       await Recipe.create({
+//         // id: id,
+//         title: title,
+//         summary: summary,
+//         score: score,
+//         healthScore: healthScore,
+//         steps: steps,
+//         image: image,
+//         diets: diets,
+//       });
+//       // console.log(await Recipe.findAll());
+//       res.send("Tabla de recetas: " + (await Recipe.findAll()));
+//     } catch (error) {
+//       // throw new Error("Fallo al setear una nueva receta");
+//       res.send("Ocurrio un error en el post /recipes: " + error);
+//     }
+//   }
+// });
 
 module.exports = router;
