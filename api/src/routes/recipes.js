@@ -9,7 +9,7 @@ router.get("/:id", async (req, res) => {
   // console.log("El parametro pasado por URL es: " + id);
   axios
     .get(
-      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`
+      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
     )
     .then((results) => {
       console.log(results.data);
@@ -29,7 +29,7 @@ router.get("/", async function (req, res) {
     try {
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&name=${queryData}&number=1`
+          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&name=${queryData}&number=1`
         )
         .then((results) => {
           console.log(results.data.results);
