@@ -6,7 +6,9 @@ export default function FoodCard(props) {
   return (
     <div>
       {props.foodCards?.map((food) => {
-        console.log(food);
+        {
+          /* console.log(food); */
+        }
         return (
           <div>
             <h2>{food.title}</h2>

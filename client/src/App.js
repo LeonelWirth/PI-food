@@ -1,100 +1,24 @@
 import "./App.css";
-import CardContainer from "./components/CardContainer";
-import CreateRecipe from "./components/CreateRecipe";
-
-let url =
-  "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_960_720.jpg";
-let arr = [
-  {
-    title: "Receta1",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta2",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta3",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta4",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta2",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta3",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta4",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta2",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta3",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta4",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta2",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta3",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta4",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta2",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta3",
-    image: url,
-    diets: ["veganoo"],
-  },
-  {
-    title: "Receta4",
-    image: url,
-    diets: ["veganoo"],
-  },
-];
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pageComponents/Home";
+import Landing from "./pageComponents/Landing";
+import NewRecipe from "./pageComponents/NewRecipe";
+import Recipe from "./pageComponents/Recipe";
 
 function App() {
   return (
-    <div className="App">
-      <div>
-        <CreateRecipe />
+    <BrowserRouter>
+      <div className="App">
+        <div>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/newRecipe" element={<NewRecipe />} />
+            <Route path="/recipe" element={<Recipe />} />
+          </Routes>
+        </div>
       </div>
-      <CardContainer data={arr} />
-    </div>
+    </BrowserRouter>
   );
 }
 
