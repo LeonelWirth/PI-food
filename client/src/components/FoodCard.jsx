@@ -1,35 +1,20 @@
-import { connect } from "react-redux";
-import { getFoodCards } from "../store/actions/index";
+import { useState } from "react";
 
 export default function FoodCard(props) {
   // Le paso por props un arreglo con las recetas a mostrar
-  console.log(props);
-  //   props.getFoodCards();
+  console.log(props.foodCards);
   return (
     <div>
-      {props.foodCard?.map((food) => {
+      {props.foodCards?.map((food) => {
+        console.log(food);
         return (
           <div>
-            <p>{food.title}</p>
+            <h2>{food.title}</h2>
             <img src={food.image} />
+            <p>Diets: {food.diets}</p>
           </div>
         );
       })}
     </div>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     foodCard: state.food,
-//   };
-// };
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getFoodCards: () => dispatch(getFoodCards()),
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(FoodCard);
-
-// export default connect(mapStateToProps)(FoodCard);
