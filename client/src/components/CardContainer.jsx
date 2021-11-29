@@ -12,7 +12,7 @@ export default function CardContainer(props) {
   let arr9 = props.data.slice(index1, index2); // arreglo de datos de todas las tarjetas que se muestran
   return (
     <div>
-      <FoodCard foodCards={arr9} />
+      <FoodCard foodCard={arr9} />
     </div>
   );
 }

@@ -1,9 +1,36 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "./NavBar.css";
 
 const NavBar = () => {
   return (
-    <div>
+    <div className="nav">
+      {/* <input type="checkbox" id="nav-check"> */}
+      <div className="nav-header">
+        <div className="nav-title">Food App</div>
+      </div>
+      <div className="nav-btn">
+        <label for="nav-check">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
+
+      <div className="nav-links">
+        <NavLink to="/">Landing</NavLink>
+        <NavLink to="/home">Home</NavLink>
+        <NavLink to="/newRecipe">New Recipe</NavLink>
+        <NavLink to="/recipe">Recipe</NavLink>
+      </div>
+    </div>
+  );
+};
+
+export default NavBar;
+
+{
+  /* <div>
       <h1>Navigation Bar</h1>
       <ul>
         <li>
@@ -19,8 +46,5 @@ const NavBar = () => {
           <NavLink to="/recipe">Recipe</NavLink>
         </li>
       </ul>
-    </div>
-  );
-};
-
-export default NavBar;
+    </div> */
+}

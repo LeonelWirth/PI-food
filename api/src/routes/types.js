@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
   let response = [];
   dietas.map((elem) => response.push(elem.dataValues.name));
   res.send(response);
-  console.log(response);
+  // console.log(response);
 });
 
 module.exports = router;

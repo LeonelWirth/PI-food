@@ -1,0 +1,21 @@
+.food-cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  list-style: none;
+
+  justify-content: center;
+}
+
+.food-item:hover {
+  box-shadow: 0 0 2rem 0;
+}
+
+.food-item {
+  flex-basis: 20rem;
+  box-shadow: 0 0 1rem 0;
+  transition: box-shadow 150ms ease-in-out 150ms;
+  /*         propiedad-tiempo-funcion de animacion */
+
+  cursor: pointer;
+}

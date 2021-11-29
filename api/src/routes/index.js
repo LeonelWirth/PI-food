@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   try {
     await axios
       .get(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=${numRecpies}`
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&number=${numRecpies}`
       )
       .then((results) => {
         const response = results.data;

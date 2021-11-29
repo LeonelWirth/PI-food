@@ -1,0 +1,9 @@
+.form {
+  width: 80%;
+  padding: 16px 32px;
+  display: inline-grid;
+}
+
+.input-text {
+  border-radius: 5px;
+}

@@ -1,22 +1,20 @@
+import React from "react";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export default function FoodCard(props) {
   // Le paso por props un arreglo con las recetas a mostrar
-  console.log(props.foodCards);
+  // console.log(props.foodCard);
+  const handleClick = () => {};
+
   return (
     <div>
-      {props.foodCards?.map((food) => {
-        {
-          /* console.log(food); */
-        }
-        return (
-          <div>
-            <h2>{food.title}</h2>
-            <img src={food.image} />
-            <p>Diets: {food.diets}</p>
-          </div>
-        );
-      })}
+      <NavLink to={`/recipe/${props.foodCard.id}`}>More info</NavLink>
+      <div>
+        <h2>{props.foodCard.title}</h2>
+        <img src={props.foodCard.image} />
+        <p>Diets: {props.foodCard.diets}</p>
+      </div>
     </div>
   );
 }

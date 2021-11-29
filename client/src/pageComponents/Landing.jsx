@@ -1,15 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+var url = "https://wallpaperaccess.com/full/3521505.jpg";
 const Landing = () => {
-  {
-    // console.log("Entre al div!!!");
-  }
   return (
-    <div>
+    <div className={"background"}>
       <h1>Landing Page</h1>
       <p>Se picaaaaaa</p>
-      <NavLink to="/home">Let's Cook!</NavLink>
+      <button>
+        <NavLink to="/home">Let's Cook!</NavLink>
+      </button>
+      <img src={url} />
     </div>
   );
 };
