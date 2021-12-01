@@ -1,16 +1,15 @@
 var express = require("express");
 var router = express.Router();
 const axios = require("axios");
-const { API_KEY, API_KEY2 } = process.env;
-
+const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
+  process.env;
+var API = API_KEY1;
 router.get("/:id", async (req, res) => {
   // LISTO
   const id = req.params.id;
   // console.log("El parametro pasado por URL es: " + id);
   axios
-    .get(
-      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
-    )
+    .get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API}`)
     .then((results) => {
       console.log(results.data);
       res.send(results.data);
@@ -29,7 +28,7 @@ router.get("/", async function (req, res) {
     try {
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&name=${queryData}&number=1`
+          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API}&addRecipeInformation=true&name=${queryData}&number=1`
         )
         .then((results) => {
           console.log(results.data.results);

@@ -19,3 +19,11 @@
 
   cursor: pointer;
 }
+
+.page-numbers {
+  list-style-type: none;
+}
+
+.filters {
+  list-style-type: none;
+}

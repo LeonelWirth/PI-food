@@ -3,19 +3,21 @@ import {
   GET_DIETTYPES,
   GET_FOODCARDS_AZ,
 } from "../actions/index";
+import { getFoodCards, getDietTypes } from "../actions/index";
 
 const initialState = {
   food: [],
-  foodAZ: [],
+  filteredFood: [],
   diet: [],
 };
 
-function reducer(state = initialState, action) {
+function reducers(state = initialState, action) {
   switch (action.type) {
     case GET_FOODCARDS:
+      // console.log("Llegue al reducer");
       return {
         ...state,
-        food: [...state.food, action.payload],
+        food: action.payload,
       };
     case GET_FOODCARDS_AZ:
       return {
@@ -23,13 +25,14 @@ function reducer(state = initialState, action) {
         foodAZ: [...state.foodAZ, action.payload],
       };
     case GET_DIETTYPES:
+      // console.log("payload: ", action.payload);
       return {
         ...state,
-        diet: [...state.diet, action.payload],
+        diet: action.payload,
       };
     default:
       return state;
   }
 }
 
-export default reducer;
+export default reducers;

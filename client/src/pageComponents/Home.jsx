@@ -1,41 +1,37 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import FoodCard from "../components/FoodCard";
 import Diets from "../components/Diets";
 import axios from "axios";
-import { hardcodedDiet, hardcodedData } from "../store/HardcodeData";
 import "./Home.css";
-import { getFoodCards } from "../store/actions/index";
+import { hardcodedDiet, hardcodedData } from "../store/HardcodeData";
+import { useDispatch, useSelector } from "react-redux";
+import { getFoodCards, getDietTypes } from "../store/actions/index";
 
 const Home = () => {
   const [data, setData] = useState([]); // Data obtenida de la DB
+  const [diet, setDiet] = useState({ data: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(9);
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
-  const [diet, setDiet] = useState({ data: [] });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //   //Aca voy a buscar la data
-    setData(hardcodedData());
-    // axios.get("http://localhost:3001/").then((response) => {
-    //   setData(response.data.results);
-    // });
-    // axios.get("http://localhost:3001/types").then((result) => setDiet(result));
-
-    setDiet(hardcodedDiet());
+    dispatch(getFoodCards());
+    axios.get("http://localhost:3001/").then((response) => {
+      setData(response.data.results);
+    });
+    dispatch(getDietTypes());
+    axios.get("http://localhost:3001/types").then((result) => setDiet(result));
   }, []);
 
-  // const dispatch = useDispatch();
-  // dispatch(getFoodCards());
-
-  // const dataRedux = useSelector((state) => state.food); // Traigo el estado de redux y lo asigno a data
+  const dataRedux = useSelector((state) => state.food); // Traigo el estado de redux y lo asigno a data
   // const diet = useSelector((state) => state.diet);
-  // console.log(dataRedux);
+  console.log(dataRedux);
 
   const pages = [];
   for (let i = 1; i < Math.ceil(data.length / cardsPerPage); i++) {
@@ -122,7 +118,7 @@ const Home = () => {
       <ul className="filters">
         <li className="filter-points-order">
           <button>Puntos (apply)</button>
-          <ul>
+          <ul className="filter-hig-low">
             <li>Higher first</li>
             <li>Lower first</li>
           </ul>
@@ -139,7 +135,7 @@ const Home = () => {
           {renderDiets(diet)}
         </li>
       </ul>
-      <ul className="pageNumbers">
+      <ul className="page-numbers">
         <li>
           <button
             onClick={handlePrevButton}

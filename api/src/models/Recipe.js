@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     score: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       defaultValue: 0,
       validate: {
         max: 100,
@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
       },
     },
     healthScore: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       defaultValue: 0,
       validate: {
         max: 100,

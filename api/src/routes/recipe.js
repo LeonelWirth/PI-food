@@ -4,9 +4,12 @@ const { Recipe, Diet } = require("../db");
 
 router.post("/", async (req, res) => {
   let { title, summary, score, healthScore, steps, image, diets } = req.body;
-  if (title && summary && score && healthScore && steps && image && diets) {
+  console.log(req.body);
+  // steps = steps.replace(/\[|\]/g, "").split(","); // El arreglo venia entre comillas entonces dejo el arreglo sin comillas para poder procesarlo
+  // diets = diets.replace(/\[|\]/g, "").split(","); // El arreglo venia entre comillas entonces dejo el arreglo sin comillas para poder procesarlo
+  if (title && summary) {
     try {
-      await Recipe.create({
+      let createRecipe = await Recipe.create({
         // id: id,
         title: title,
         summary: summary,
@@ -14,12 +17,11 @@ router.post("/", async (req, res) => {
         healthScore: healthScore,
         steps: steps,
         image: image,
-        diets: diets,
+        // diets: JSON.parse(diets),
       });
-      // console.log(await Recipe.findAll());
+      console.log(createRecipe);
       res.send("Tabla de recetas: " + (await Recipe.findAll()));
     } catch (error) {
-      // throw new Error("Fallo al setear una nueva receta");
       res.send("Ocurrio un error en el post /recipes: " + error);
     }
   }

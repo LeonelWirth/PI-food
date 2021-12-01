@@ -9,14 +9,6 @@ const NavBar = () => {
       <div className="nav-header">
         <div className="nav-title">Food App</div>
       </div>
-      <div className="nav-btn">
-        <label for="nav-check">
-          <span></span>
-          <span></span>
-          <span></span>
-        </label>
-      </div>
-
       <div className="nav-links">
         <NavLink to="/">Landing</NavLink>
         <NavLink to="/home">Home</NavLink>
