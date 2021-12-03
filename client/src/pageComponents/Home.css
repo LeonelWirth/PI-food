@@ -14,7 +14,8 @@
 .food-item {
   flex-basis: 20rem;
   box-shadow: 0 0 1rem 0;
-  transition: box-shadow 150ms ease-in-out 150ms;
+  transition: box-shadow 150ms ease;
+  /*-in-out 150ms;*/
   /*         propiedad-tiempo-funcion de animacion */
 
   cursor: pointer;
@@ -25,5 +26,13 @@
 }
 
 .filters {
+  list-style-type: none;
+}
+
+.filter-alphabetic-order {
+  list-style-type: none;
+}
+
+.filter-hig-low {
   list-style-type: none;
 }

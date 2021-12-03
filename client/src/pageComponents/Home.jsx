@@ -3,43 +3,30 @@ import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import FoodCard from "../components/FoodCard";
 import Diets from "../components/Diets";
-import axios from "axios";
+import SearchBar from "../components/SearchBar";
 import "./Home.css";
-import { hardcodedDiet, hardcodedData } from "../store/HardcodeData";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoodCards, getDietTypes } from "../store/actions/index";
+import {
+  getFoodCards,
+  getDietTypes,
+  getFoodCardsAZ,
+  getFoodCardsZA,
+  getFoodCardsByScoreHL,
+  getFoodCardsByScoreLH,
+  getFoodCardsByDiet,
+} from "../store/actions/index";
 
 const Home = () => {
-  const [data, setData] = useState([]); // Data obtenida de la DB
-  const [diet, setDiet] = useState({ data: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(9);
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    //   //Aca voy a buscar la data
-    dispatch(getFoodCards());
-    axios.get("http://localhost:3001/").then((response) => {
-      setData(response.data.results);
-    });
-    dispatch(getDietTypes());
-    axios.get("http://localhost:3001/types").then((result) => setDiet(result));
-  }, []);
-
-  const dataRedux = useSelector((state) => state.food); // Traigo el estado de redux y lo asigno a data
-  // const diet = useSelector((state) => state.diet);
-  console.log(dataRedux);
-
-  const pages = [];
-  for (let i = 1; i < Math.ceil(data.length / cardsPerPage); i++) {
-    pages.push(i);
-  }
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = data.slice(indexOfFirstCard, indexOfLastCard);
+  const data = useSelector((state) => state.food); // Traigo parte del estado de redux y lo asigno a data
+  const diet = useSelector((state) => state.diet); // Traigo parte del estado de redux y lo asigno a diea
+  const [filter, setFilter] = useState([]);
   const renderData = (cardsToRender) => {
     return (
       <ul className="food-cards">
@@ -53,6 +40,55 @@ const Home = () => {
       </ul>
     );
   };
+
+  useEffect(() => {
+    dispatch(getFoodCards());
+    dispatch(getDietTypes());
+  }, []);
+
+  useEffect(() => {
+    switch (filter[0]) {
+      case "AZ":
+        dispatch(getFoodCardsAZ(data));
+        setFilter([]);
+        break;
+      case "ZA":
+        dispatch(getFoodCardsZA(data));
+        setFilter([]);
+        break;
+      case "ScoreHL":
+        dispatch(getFoodCardsByScoreHL(data));
+        setFilter([]);
+        break;
+      case "ScoreLH":
+        dispatch(getFoodCardsByScoreLH(data));
+        setFilter([]);
+        break;
+      case "Reset":
+        dispatch(getFoodCards());
+        setFilter([]);
+        break;
+      case "Diets":
+        let dietsToFilter = filter;
+        dietsToFilter.shift();
+        console.log("Dispatched: ", data);
+        dispatch(getFoodCardsByDiet(data, dietsToFilter));
+        setFilter([]);
+        break;
+      default:
+        break;
+    }
+    // setFilter("");
+    renderData(data);
+  }, [filter]);
+
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(data.length / cardsPerPage); i++) {
+    pages.push(i);
+  }
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = data.slice(indexOfFirstCard, indexOfLastCard);
   const handleClick = (e) => {
     setCurrentPage(Number(e.target.id));
   };
@@ -65,16 +101,13 @@ const Home = () => {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
     }
-    // console.log(currentPage);
   };
   const handleNextButton = () => {
     setCurrentPage(currentPage + 1);
     if (currentPage + 1 > maxPageNumberLimit) {
-      // Entonces reajusto los limites
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
     }
-    // console.log(currentPage);
   };
   const renderPageNumbers = () => {
     return pages.map((elem) => {
@@ -95,12 +128,18 @@ const Home = () => {
     });
   };
   const renderDiets = (data) => {
-    // console.log(data);
     return (
       <>
-        {data.data.map((elem, index) => {
+        {data.map((elem, index) => {
           return (
-            <li className="diet" key={index}>
+            <li
+              className="diet"
+              key={index}
+              onClick={(elem) => {
+                console.log("Filtro antes de agregar dieta: ", filter);
+                setFilter([...filter, elem.target.textContent]);
+              }}
+            >
               <Diets diet={elem} />
             </li>
           );
@@ -108,33 +147,36 @@ const Home = () => {
       </>
     );
   };
-
-  // console.log(diet);
-
+  console.log(filter);
   return (
     <div>
       <NavBar />
       <h1>Home</h1>
-      <ul className="filters">
-        <li className="filter-points-order">
+      <div className="filters">
+        <SearchBar />
+        <button onClick={() => setFilter(["Reset"])}> Remove Filters</button>
+        <div className="filter-points-order">
           <button>Puntos (apply)</button>
           <ul className="filter-hig-low">
-            <li>Higher first</li>
-            <li>Lower first</li>
+            <li onClick={() => setFilter(["ScoreHL"])}>Higher first</li>
+            <li onClick={() => setFilter(["ScoreLH"])}>Lower first</li>
           </ul>
-        </li>
-        <li className="filter-alphabetic-order">
+        </div>
+        <div className="filter-alphabetic-order">
           <button>Alfabeticamente (apply)</button>
-          <ul>
-            <li>A-{">"}Z</li>
-            <li>Z-{">"}A</li>
+          <ul className="filter-alphabetic-order">
+            <li onClick={() => setFilter(["AZ"])}>A-{">"}Z</li>
+            <li onClick={() => setFilter(["ZA"])}>Z-{">"}A</li>
           </ul>
-        </li>
-        <li className="filter-diet-type">
-          <button>Tipo de dieta (apply)</button>
+        </div>
+        <div className="filter-diet-type">
+          <button onClick={() => setFilter(["Diets", ...filter])}>
+            Tipo de dieta (apply)
+          </button>
+
           {renderDiets(diet)}
-        </li>
-      </ul>
+        </div>
+      </div>
       <ul className="page-numbers">
         <li>
           <button
@@ -161,6 +203,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// useDispatch
-// useSelector

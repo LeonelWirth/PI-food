@@ -2,33 +2,59 @@ import {
   GET_FOODCARDS,
   GET_DIETTYPES,
   GET_FOODCARDS_AZ,
+  GET_FOODCARDS_ZA,
+  GET_FOODCARDS_SCORE_HL,
+  GET_FOODCARDS_SCORE_LH,
+  GET_FOODCARDS_DIET,
+  SEARCH_TITLE,
 } from "../actions/index";
-import { getFoodCards, getDietTypes } from "../actions/index";
 
 const initialState = {
   food: [],
-  filteredFood: [],
   diet: [],
 };
 
 function reducers(state = initialState, action) {
   switch (action.type) {
     case GET_FOODCARDS:
-      // console.log("Llegue al reducer");
       return {
         ...state,
         food: action.payload,
       };
-    case GET_FOODCARDS_AZ:
-      return {
-        ...state,
-        foodAZ: [...state.foodAZ, action.payload],
-      };
     case GET_DIETTYPES:
-      // console.log("payload: ", action.payload);
       return {
         ...state,
         diet: action.payload,
+      };
+    case GET_FOODCARDS_AZ:
+      return {
+        ...state,
+        food: action.payload,
+      };
+    case GET_FOODCARDS_ZA:
+      return {
+        ...state,
+        food: action.payload,
+      };
+    case GET_FOODCARDS_SCORE_HL:
+      return {
+        ...state,
+        food: action.payload,
+      };
+    case GET_FOODCARDS_SCORE_LH:
+      return {
+        ...state,
+        food: action.payload,
+      };
+    case GET_FOODCARDS_DIET:
+      return {
+        ...state,
+        food: action.payload,
+      };
+    case SEARCH_TITLE:
+      return {
+        ...state,
+        food: [...action.payload, ...state.food],
       };
     default:
       return state;
