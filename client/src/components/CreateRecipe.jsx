@@ -80,7 +80,7 @@ export default function CreateRecipe(props) {
         }
         break;
       case "steps":
-        setForm((form) => ({ ...form, steps: [e.target.value] }));
+        setForm((form) => ({ ...form, steps: [e.target.value] })); // steps: [{ number: 1, step: e.target.value }]
         console.log("steps: ", [e.target.value]);
         if (!form.steps) {
           setCss((prevstate) => ({ ...prevstate, stepsCss: false }));

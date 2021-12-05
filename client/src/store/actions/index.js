@@ -13,9 +13,11 @@ export const GET_FOODCARDS_ID = "GET_FOODCARDS_ID";
 export function getFoodCards() {
   return async function (dispatch) {
     return await axios.get("http://localhost:3001/").then((response) => {
+      console.log(response.data);
       dispatch({
         type: GET_FOODCARDS,
-        payload: response.data.results,
+        // payload: response.data.results,
+        payload: response.data,
       });
     });
   };
@@ -172,7 +174,7 @@ export function removeFilters() {
     return await axios.get("http://localhost:3001/").then((response) => {
       dispatch({
         type: GET_FOODCARDS,
-        payload: response.data.results,
+        payload: response.data,
       });
     });
   };

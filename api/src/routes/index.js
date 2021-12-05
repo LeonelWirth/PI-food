@@ -5,7 +5,7 @@ const { Recipe, Diet } = require("../db");
 // const { setRecipe } = require("../funciones/funciones");
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
-var API = API_KEY4;
+var API = API_KEY1;
 // console.log(API_KEY);
 
 // Acuerdense de agregar su router o cualquier middleware que necesiten aca
@@ -21,17 +21,18 @@ router.get("/", async (req, res) => {
   var dataRecibida;
   var dataDB;
   // ---------> Obtengo las 100 primeras recetas con todos sus datos
+  var resultado = [];
   try {
     dataDB = await Recipe.findAll();
-    var resultado = [];
     for (let i = 0; i < dataDB.length; i++) {
       resultado[i] = dataDB[i].dataValues;
+      // resultado[i].analyzedInstructions = resultado[i].steps;
     }
-    // console.log("resultado es:   > ", resultado);
+    console.log("resultado es:   > ", resultado);
   } catch (error) {
     res.send("Error en pedido a DB: ", error);
   }
-  console.log(dataDB);
+  // console.log(dataDB);
   // if (dataDB.length === 0) {
   try {
     await axios
@@ -42,29 +43,23 @@ router.get("/", async (req, res) => {
         const response = results?.data;
         // console.log("Response es: ", response);
         dataRecibida = results;
-        res.send(response);
+        // res.send(response);
+        if (dataDB[0]) {
+          res.send(dataRecibida.data.results.concat(resultado));
+        } else {
+          res.send(dataRecibida.data.results);
+        }
       });
   } catch (error) {
     console.log("ERROR al obtener todas las recetas en el path  ", "/");
     res.send(error);
   } finally {
-    // for (let i = 0; i < dataRecibida.data.results.length; i++) {
-    //   // Agrego las 100 peticiones a la base de datos;
-    //   await Recipe.create({
-    //     title: dataRecibida.data.results[i].title,
-    //     summary: dataRecibida.data.results[i].summary,
-    //     score: dataRecibida.data.results[i].spoonacularScore,
-    //     healthScore: dataRecibida.data.results[i].healthScore,
-    //     steps: dataRecibida.data.results[i].analyzedInstructions.steps,
-    //     diets: dataRecibida.data.results[i].diets,
-    //   });
-    // }
     // console.log("Data recibida api: ", dataRecibida.data.results);
     // console.log("Data recibida DB: ", dataDB[0].dataValues);
-    console.log(
-      "Data concatenada: ",
-      dataRecibida.data.results.concat(dataDB[0].dataValues)
-    );
+    // console.log(
+    //   "Data concatenada: ",
+    //   dataRecibida.data.results.concat(dataDB[0].dataValues)
+    // );
   }
 });
 
