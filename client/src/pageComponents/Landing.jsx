@@ -5,8 +5,7 @@ var url = "https://wallpaperaccess.com/full/3521505.jpg";
 const Landing = () => {
   return (
     <div className={"background"}>
-      <h1>Landing Page</h1>
-      <p>Se picaaaaaa</p>
+      <h1>Ready to Cook?</h1>
       <button>
         <NavLink to="/home">Let's Cook!</NavLink>
       </button>

@@ -8,6 +8,7 @@ export const GET_FOODCARDS_SCORE_HL = "GET_FOODCARDS_SCORE_HL";
 export const GET_FOODCARDS_SCORE_LH = "GET_FOODCARDS_SCORE_LH";
 export const GET_FOODCARDS_DIET = "GET_FOODCARDS_DIET";
 export const SEARCH_TITLE = "SEARCH_TITLE";
+export const GET_FOODCARDS_ID = "GET_FOODCARDS_ID";
 
 export function getFoodCards() {
   return async function (dispatch) {
@@ -187,6 +188,20 @@ export function search(data, title) {
         console.log("Del back llega: ", response.data);
         dispatch({
           type: SEARCH_TITLE,
+          payload: response.data,
+        });
+      });
+  };
+}
+
+export function getFoodCardsByID(id) {
+  return async function (dispatch) {
+    return await axios
+      .get(`http://localhost:3001/recipes/${id}`)
+      .then((response) => {
+        console.log("Data ID: ", response.data);
+        dispatch({
+          type: GET_FOODCARDS_ID,
           payload: response.data,
         });
       });

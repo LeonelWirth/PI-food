@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Recipe, Diet } = require("../db");
+const { Diet } = require("../db");
 
 router.get("/", async (req, res) => {
   let dietas = await Diet.findAll();

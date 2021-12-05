@@ -15,6 +15,7 @@
   flex-basis: 20rem;
   box-shadow: 0 0 1rem 0;
   transition: box-shadow 150ms ease;
+  border-radius: 5px;
   /*-in-out 150ms;*/
   /*         propiedad-tiempo-funcion de animacion */
 
@@ -22,10 +23,15 @@
 }
 
 .page-numbers {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
   list-style-type: none;
 }
 
 .filters {
+  gap: 2rem;
+  justify-content: center;
   list-style-type: none;
 }
 
@@ -33,6 +39,10 @@
   list-style-type: none;
 }
 
-.filter-hig-low {
-  list-style-type: none;
+.filters-searchbar {
+  display: flex;
+}
+
+.content {
+  display: flex;
 }

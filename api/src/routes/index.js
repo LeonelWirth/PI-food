@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const axios = require("axios");
 const { Recipe, Diet } = require("../db");
-const { setRecipe } = require("../funciones/funciones");
+// const { setRecipe } = require("../funciones/funciones");
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
 var API = API_KEY4;
@@ -19,9 +19,10 @@ router.get("/", async (req, res) => {
   var numRecpies = 15; // Cantidad de recetas de la peticion
   // var dataRecibida = await getRecipes(numRecpies);
   var dataRecibida;
+  var dataDB;
   // ---------> Obtengo las 100 primeras recetas con todos sus datos
   try {
-    var dataDB = await Recipe.findAll();
+    dataDB = await Recipe.findAll();
     var resultado = [];
     for (let i = 0; i < dataDB.length; i++) {
       resultado[i] = dataDB[i].dataValues;
@@ -30,7 +31,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.send("Error en pedido a DB: ", error);
   }
-  // console.log(dataDB);
+  console.log(dataDB);
   // if (dataDB.length === 0) {
   try {
     await axios
@@ -58,6 +59,12 @@ router.get("/", async (req, res) => {
     //     diets: dataRecibida.data.results[i].diets,
     //   });
     // }
+    // console.log("Data recibida api: ", dataRecibida.data.results);
+    // console.log("Data recibida DB: ", dataDB[0].dataValues);
+    console.log(
+      "Data concatenada: ",
+      dataRecibida.data.results.concat(dataDB[0].dataValues)
+    );
   }
 });
 

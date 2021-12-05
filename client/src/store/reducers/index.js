@@ -6,6 +6,7 @@ import {
   GET_FOODCARDS_SCORE_HL,
   GET_FOODCARDS_SCORE_LH,
   GET_FOODCARDS_DIET,
+  GET_FOODCARDS_ID,
   SEARCH_TITLE,
 } from "../actions/index";
 
@@ -51,10 +52,16 @@ function reducers(state = initialState, action) {
         ...state,
         food: action.payload,
       };
-    case SEARCH_TITLE:
+    case GET_FOODCARDS_ID:
       return {
         ...state,
-        food: [...action.payload, ...state.food],
+        food: [action.payload],
+      };
+    case SEARCH_TITLE:
+      console.log("Payload: ", action.payload);
+      return {
+        ...state,
+        food: [...action.payload], //, ...state.food],
       };
     default:
       return state;

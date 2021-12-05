@@ -152,52 +152,57 @@ const Home = () => {
     <div>
       <NavBar />
       <h1>Home</h1>
-      <div className="filters">
-        <SearchBar />
-        <button onClick={() => setFilter(["Reset"])}> Remove Filters</button>
-        <div className="filter-points-order">
-          <button>Puntos (apply)</button>
-          <ul className="filter-hig-low">
-            <li onClick={() => setFilter(["ScoreHL"])}>Higher first</li>
-            <li onClick={() => setFilter(["ScoreLH"])}>Lower first</li>
-          </ul>
-        </div>
-        <div className="filter-alphabetic-order">
-          <button>Alfabeticamente (apply)</button>
-          <ul className="filter-alphabetic-order">
-            <li onClick={() => setFilter(["AZ"])}>A-{">"}Z</li>
-            <li onClick={() => setFilter(["ZA"])}>Z-{">"}A</li>
-          </ul>
-        </div>
-        <div className="filter-diet-type">
-          <button onClick={() => setFilter(["Diets", ...filter])}>
-            Tipo de dieta (apply)
-          </button>
-
-          {renderDiets(diet)}
-        </div>
+      <div>
+        <ul className="page-numbers">
+          <li>
+            <button
+              onClick={handlePrevButton}
+              disabled={currentPage === pages[0] ? true : false}
+            >
+              Prev
+            </button>
+          </li>
+          {renderPageNumbers()}
+          <li>
+            <button
+              onClick={handleNextButton}
+              disabled={currentPage === pages[pages.length - 1] ? true : false}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
       </div>
-      <ul className="page-numbers">
-        <li>
-          <button
-            onClick={handlePrevButton}
-            disabled={currentPage === pages[0] ? true : false}
-          >
-            Prev
-          </button>
-        </li>
-        {renderPageNumbers()}
-        <li>
-          <button
-            onClick={handleNextButton}
-            disabled={currentPage === pages[pages.length - 1] ? true : false}
-          >
-            Next
-          </button>
-        </li>
-      </ul>
+      <SearchBar className="filters-searchbar" />
+      <div className="content">
+        <div>
+          <div className="filters">
+            <button onClick={() => setFilter(["Reset"])}>
+              {" "}
+              Remove Filters
+            </button>
+            <div className="filter-points-order">
+              <button>Puntos (apply)</button>
+              <li onClick={() => setFilter(["ScoreHL"])}>Higher first</li>
+              <li onClick={() => setFilter(["ScoreLH"])}>Lower first</li>
+              {/* </ul> */}
+            </div>
+            <div className="filter-alphabetic-order">
+              <button>Alfabeticamente (apply)</button>
+              <li onClick={() => setFilter(["AZ"])}>A-{">"}Z</li>
+              <li onClick={() => setFilter(["ZA"])}>Z-{">"}A</li>
+            </div>
+            <div className="filter-diet-type">
+              <button onClick={() => setFilter(["Diets", ...filter])}>
+                Tipo de dieta (apply)
+              </button>
 
-      {renderData(currentCards)}
+              {renderDiets(diet)}
+            </div>
+          </div>
+        </div>
+        <div>{renderData(currentCards)}</div>
+      </div>
     </div>
   );
 };
