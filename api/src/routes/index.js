@@ -26,7 +26,12 @@ router.get("/", async (req, res) => {
     dataDB = await Recipe.findAll();
     for (let i = 0; i < dataDB.length; i++) {
       resultado[i] = dataDB[i].dataValues;
-      // resultado[i].analyzedInstructions = resultado[i].steps;
+      resultado[i] = {
+        ...resultado[i],
+        analyzedInstructions: [
+          { steps: [{ number: 1, step: resultado[i].steps }] },
+        ],
+      };
     }
     console.log("resultado es:   > ", resultado);
   } catch (error) {

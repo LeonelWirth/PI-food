@@ -55,7 +55,7 @@ function reducers(state = initialState, action) {
     case GET_FOODCARDS_ID:
       return {
         ...state,
-        food: [action.payload],
+        food: action.payload,
       };
     case SEARCH_TITLE:
       console.log("Payload: ", action.payload);

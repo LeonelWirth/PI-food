@@ -3,10 +3,14 @@ var router = express.Router();
 const { Diet } = require("../db");
 
 router.get("/", async (req, res) => {
-  let dietas = await Diet.findAll();
-  let response = [];
-  dietas.map((elem) => response.push(elem.dataValues.name));
-  res.send(response);
+  try {
+    let dietas = await Diet.findAll();
+    let response = [];
+    dietas.map((elem) => response.push(elem.dataValues.name));
+    res.send(response);
+  } catch (error) {
+    throw new Error("Error en types: ", error);
+  }
   // console.log(response);
 });
 

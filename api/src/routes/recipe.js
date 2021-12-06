@@ -5,27 +5,29 @@ const { Recipe, Diet } = require("../db");
 
 router.post("/", async (req, res) => {
   const { title, image, summary, score, healthScore, steps, diet } = req.body;
+  try {
+    let recipeCreated = await Recipe.create({
+      title,
+      image,
+      summary,
+      score,
+      healthScore,
+      steps,
+    });
 
-  let recipeCreated = await Recipe.create({
-    title,
-    image,
-    summary,
-    score,
-    healthScore,
-    steps,
-  });
+    let dietDB = await Diet.findAll({
+      where: {
+        name: diet,
+      },
+    });
 
-  let dietDB = await Diet.findAll({
-    where: {
-      name: diet,
-    },
-  });
-
-  return await recipeCreated
-    .addDiet(dietDB)
-    .then((recipe) => res.send(recipe))
-    .catch((error) => res.send("Error: ", error));
-
+    return await recipeCreated
+      .addDiet(dietDB)
+      .then((recipe) => res.send(recipe))
+      .catch((error) => res.send("Error: ", error));
+  } catch (error) {
+    throw new Error("Error en recipe: ", error);
+  }
   // let { title, summary, score, healthScore, steps, image, diet } = req.body;
   // console.log(req.body);
   // // steps = steps.replace(/\[|\]/g, "").split(","); // El arreglo venia entre comillas entonces dejo el arreglo sin comillas para poder procesarlo
