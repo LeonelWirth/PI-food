@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
     console.log("Error o no hay nada");
   }
   if (encuestaDB) {
-    res.send(encuestaDB);
+    res.send(encuestaDB[0]);
   } else {
     axios
       .get(

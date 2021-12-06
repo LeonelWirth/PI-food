@@ -34,7 +34,7 @@ const Recipe = () => {
     await dispatch(getFoodCardsByID(id));
   };
   const renderSteps = () => {
-    console.log("Recipe: ", recipe[0].analyzedInstructions[0].steps); //.analyzedInstructions[0]?.steps);
+    // console.log("Recipe: ", recipe[0].analyzedInstructions[0].steps); //.analyzedInstructions[0]?.steps);
     if (recipe[0]?.analyzedInstructions[0]?.steps) {
       return <Steps steps={recipe[0].analyzedInstructions[0].steps} />;
     } else {
