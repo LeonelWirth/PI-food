@@ -15,7 +15,6 @@
   gap: 2rem;
   flex-wrap: wrap;
   list-style: none;
-
   justify-content: center;
 }
 
@@ -28,10 +27,7 @@
   box-shadow: 0 0 1rem 0;
   transition: box-shadow 150ms ease;
   border-radius: 5px;
-  background-color: hsl(46, 43%, 90%);
-  /*-in-out 150ms;*/
-  /*         propiedad-tiempo-funcion de animacion */
-
+  background-color: #fcf0c8;
   cursor: pointer;
 }
 
@@ -45,10 +41,7 @@
   list-style-type: none;
 }
 
-.filters-searchbar {
-  display: flex;
-}
-
+.filters-searchbar,
 .content {
   display: flex;
 }
@@ -65,10 +58,13 @@
   border: 1px solid #efefef;
   color: #efefef;
   cursor: pointer;
+  background-color: #911f27;
+  border: 1px solid black;
   border-radius: 5px;
 }
 
-.page-numbers li.active {
+.page-numbers li.active,
+.page-numbers li button:hover {
   background-color: #efefef;
   color: black;
 }
@@ -81,7 +77,35 @@
   font-size: 1rem;
 }
 
-.page-numbers li button:hover {
+.filter-diet-type button,
+.filter-alphabetic-order button,
+.filter-points-order button,
+.filters button {
   background-color: #efefef;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
   color: black;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.filter-options {
+  background-color: #911f27;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.active-filter {
+  background-color: #face7f;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
 }

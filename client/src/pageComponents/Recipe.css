@@ -1,0 +1,9 @@
+.recipe-card {
+  background-color: #fcf0c8;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: inline-block;
+  box-shadow: 0 0 2rem 0;
+  width: 80%;
+}

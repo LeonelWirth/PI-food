@@ -8,6 +8,7 @@ import {
   GET_FOODCARDS_DIET,
   GET_FOODCARDS_ID,
   SEARCH_TITLE,
+  POST_FOODCARDS,
 } from "../actions/index";
 
 const initialState = {
@@ -63,6 +64,8 @@ function reducers(state = initialState, action) {
         ...state,
         food: [...action.payload], //, ...state.food],
       };
+    case POST_FOODCARDS:
+
     default:
       return state;
   }

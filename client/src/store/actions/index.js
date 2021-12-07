@@ -9,6 +9,7 @@ export const GET_FOODCARDS_SCORE_LH = "GET_FOODCARDS_SCORE_LH";
 export const GET_FOODCARDS_DIET = "GET_FOODCARDS_DIET";
 export const SEARCH_TITLE = "SEARCH_TITLE";
 export const GET_FOODCARDS_ID = "GET_FOODCARDS_ID";
+export const POST_FOODCARDS = "POST_FOODCARDS";
 
 export function getFoodCards() {
   return async function (dispatch) {
@@ -216,5 +217,15 @@ export function getFoodCardsByID(id) {
           payload: response.data,
         });
       });
+  };
+}
+
+export function postFoodCards(form) {
+  return async function (dispatch) {
+    axios.post("http://localhost:3001/recipe", form).then(() => {
+      dispatch({
+        type: POST_FOODCARDS,
+      });
+    });
   };
 }

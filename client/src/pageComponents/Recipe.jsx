@@ -3,11 +3,10 @@ import NavBar from "../components/NavBar";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { getFoodCards, getDietTypes } from "../store/actions/index";
 import { getFoodCardsByID } from "../store/actions/index";
 import Steps from "../components/Steps";
-import axios from "axios";
 import image from "../Image/Loading.jpg";
+import "./Recipe.css";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -41,7 +40,6 @@ const Recipe = () => {
     setRecipe(data);
   }, [data]);
 
-  // useEffect(() => {}, [recipe]);
   const render = (recipe) => {
     console.log("Re-render ", recipe);
     let length = recipe.length;
@@ -54,7 +52,7 @@ const Recipe = () => {
         </div>
       );
     return (
-      <div>
+      <div className="recipe-card">
         <h1>{recipe.title}</h1>
         <img src={recipe.image} />
         <p>Summary: {recipe.summary?.replace(/<[^>]*>?/g, "")}</p>

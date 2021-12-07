@@ -2,18 +2,24 @@
   width: 80%;
   padding: 16px 32px;
   display: inline-grid;
+  color: black;
+  font-size: 1.5rem;
 }
-
-.input-text {
-  border-radius: 5px;
-}
-
 .valid-form {
-  border: 2px solid greenyellow;
+  border: 2px solid rgb(116, 194, 0);
   border-radius: 4px;
 }
 
 .invalid-form {
-  border: 2px solid red;
+  border: 2px solid #911f27;
   border-radius: 4px;
+}
+
+.form-container {
+  background-color: #fcf0c8;
+  border-radius: 5px;
+  display: inline-block;
+  width: 80%;
+  box-shadow: 0 0 2rem 0;
+  margin-top: 50px;
 }

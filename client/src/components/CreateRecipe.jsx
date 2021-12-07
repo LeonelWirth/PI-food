@@ -1,15 +1,17 @@
 import React from "react";
-import axios from "axios";
 import "./CreateRecipe.css";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import FormDiets from "./FormDiets";
+import { postFoodCards, getDietTypes } from "../store/actions/index";
 
 export default function CreateRecipe(props) {
+  const dispatch = useDispatch();
   const diet = useSelector((state) => state.diet); // Traigo parte del estado de redux y lo asigno a diet
-  useEffect(() => {
-    console.log("Diet: ", diet);
-  }, [diet]);
+  const [form, setForm] = useState({
+    check: false,
+    diet: [],
+    steps: [],
+  });
   const [css, setCss] = useState({
     titleCss: true,
     summaryCss: true,
@@ -19,11 +21,12 @@ export default function CreateRecipe(props) {
     imageCss: true,
     stepsCss: true,
   });
-  const [form, setForm] = useState({
-    check: false,
-    diet: [],
-    steps: [],
-  });
+  useEffect(() => {
+    dispatch(getDietTypes());
+  }, []);
+  useEffect(() => {
+    console.log("Diet: ", diet);
+  }, [diet]);
 
   function handlerOnChange(e) {
     switch (e.target.id) {
@@ -88,9 +91,8 @@ export default function CreateRecipe(props) {
         }
         break;
       case "steps":
-        setForm((form) => ({ ...form, newStep: [e.target.value] })); // steps: [{ number: 1, step: e.target.value }]
+        setForm((form) => ({ ...form, newStep: [e.target.value] }));
         console.log("newSteps: ", [e.target.value]);
-
         break;
       case "add-step":
         console.log("form.steps: ", form.steps);
@@ -127,12 +129,9 @@ export default function CreateRecipe(props) {
   }
   function handlerOnSubmit(e) {
     e.preventDefault();
-
     if (form.check) {
-      // console.log("voy a enviar: " + form);
       try {
-        axios.post("http://localhost:3001/recipe", form);
-        // console.log(form);
+        dispatch(postFoodCards(form));
         alert("Receta creada: " + form.title + " !");
       } catch (error) {
         alert("Error al crear receta: " + error);
@@ -144,13 +143,14 @@ export default function CreateRecipe(props) {
     }
   }
   return (
-    <div>
-      <h1>Crea tu receta!</h1>
+    <div className="form-container">
+      <h1>Create a new Recipe</h1>
       <form onSubmit={handlerOnSubmit} className="form">
         <label>Name:</label>
         <input
           type="text"
           id="name"
+          key="name"
           onChange={handlerOnChange}
           className={css.titleCss ? "valid-form" : "invalid-form"}
         ></input>
@@ -158,6 +158,7 @@ export default function CreateRecipe(props) {
         <input
           type="text"
           id="summary"
+          key="summary"
           onChange={handlerOnChange}
           className={css.summaryCss ? "valid-form" : "invalid-form"}
         ></input>
@@ -165,6 +166,7 @@ export default function CreateRecipe(props) {
         <input
           type="text"
           id="score"
+          key="score"
           onChange={handlerOnChange}
           className={css.scoreCss ? "valid-form" : "invalid-form"}
         ></input>
@@ -172,28 +174,35 @@ export default function CreateRecipe(props) {
         <input
           type="text"
           id="healthscore"
+          key="healthscore"
           onChange={handlerOnChange}
           className={css.healthScoreCss ? "valid-form" : "invalid-form"}
         ></input>
         <label>Diet:</label>
         <select
+          name="diet-form"
           onChange={handlerOnChange}
           className={css.dietCss ? "valid-form" : "invalid-form"}
           id="diet"
+          key="diet"
         >
-          <option selected disabled>
+          <option selected disabled key={Math.random()}>
             Chose diets
           </option>
           {diet.map((elem) => {
-            return <option value={elem}>{elem}</option>;
+            return (
+              <option value={elem} key={Math.random()}>
+                {elem}
+              </option>
+            );
           })}
         </select>
         <p>{form.diet}</p>
-
         <label>Image:</label>
         <input
           type="text"
           id="image"
+          key="image"
           onChange={handlerOnChange}
           className={css.imageCss ? "valid-form" : "invalid-form"}
         ></input>
@@ -201,6 +210,7 @@ export default function CreateRecipe(props) {
         <input
           type="text"
           id="steps"
+          key="steps"
           onChange={handlerOnChange}
           className={css.stepsCss ? "valid-form" : "invalid-form"}
         ></input>
@@ -213,16 +223,4 @@ export default function CreateRecipe(props) {
       </form>
     </div>
   );
-}
-
-{
-  /* <FormDiets diet={diet} /> */
-}
-{
-  /* <input
-  type="text"
-  id="diet"
-  onChange={handlerOnChange}
-  className={css.dietCss ? "valid-form" : "invalid-form"}
-></input> */
 }

@@ -3,7 +3,6 @@ import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import FoodCard from "../components/FoodCard";
 import Diets from "../components/Diets";
-import SearchBar from "../components/SearchBar";
 import "./Home.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -50,35 +49,41 @@ const Home = () => {
     switch (filter[0]) {
       case "AZ":
         dispatch(getFoodCardsAZ(data));
-        setFilter([]);
+        // setFilter([]);
         break;
       case "ZA":
         dispatch(getFoodCardsZA(data));
-        setFilter([]);
+        // setFilter([]);
         break;
       case "ScoreHL":
         dispatch(getFoodCardsByScoreHL(data));
-        setFilter([]);
+        // setFilter([]);
         break;
       case "ScoreLH":
         dispatch(getFoodCardsByScoreLH(data));
-        setFilter([]);
+        // setFilter([]);
         break;
       case "Reset":
         dispatch(getFoodCards());
-        setFilter([]);
+        // setFilter([]);
         break;
       case "Diets":
-        let dietsToFilter = filter;
-        dietsToFilter.shift();
+        let dietsToFilter = [];
+        for (let i = 0; i < filter.length; i++) {
+          if (diet.includes(filter[i])) {
+            dietsToFilter.push(filter[i]);
+          }
+        }
+        // dietsToFilter.shift();
         console.log("Dispatched: ", data);
+        console.log("Dietas filtro ", dietsToFilter);
         dispatch(getFoodCardsByDiet(data, dietsToFilter));
-        setFilter([]);
+        // setFilter([]);
         break;
       default:
         break;
     }
-    console.log("La data post problema es: ", data);
+    // console.log("La data post problema es: ", data);
     renderData(data);
   }, [filter]);
 
@@ -133,7 +138,9 @@ const Home = () => {
         {data.map((elem, index) => {
           return (
             <li
-              className="diet"
+              className={
+                filter.includes(elem) ? "active-filter" : "filter-options"
+              }
               key={index}
               onClick={(elem) => {
                 console.log("Filtro antes de agregar dieta: ", filter);
@@ -147,11 +154,9 @@ const Home = () => {
       </>
     );
   };
-  console.log(filter);
   return (
     <div>
       <NavBar text={"Home"} />
-      {/* <h1>Home</h1> */}
       <div>
         <ul className="page-numbers">
           <li className="page-button">
@@ -179,14 +184,46 @@ const Home = () => {
             <button onClick={() => setFilter(["Reset"])}>Remove Filters</button>
             <div className="filter-points-order">
               <button>Puntos (apply)</button>
-              <li onClick={() => setFilter(["ScoreHL"])}>Higher first</li>
-              <li onClick={() => setFilter(["ScoreLH"])}>Lower first</li>
+              <li
+                className={
+                  filter.includes("ScoreHL")
+                    ? "active-filter"
+                    : "filter-options"
+                }
+                onClick={() => setFilter(["ScoreHL"])}
+              >
+                Higher first
+              </li>
+              <li
+                className={
+                  filter.includes("ScoreLH")
+                    ? "active-filter"
+                    : "filter-options"
+                }
+                onClick={() => setFilter(["ScoreLH"])}
+              >
+                Lower first
+              </li>
               {/* </ul> */}
             </div>
             <div className="filter-alphabetic-order">
               <button>Alfabeticamente (apply)</button>
-              <li onClick={() => setFilter(["AZ"])}>A-{">"}Z</li>
-              <li onClick={() => setFilter(["ZA"])}>Z-{">"}A</li>
+              <li
+                className={
+                  filter.includes("AZ") ? "active-filter" : "filter-options"
+                }
+                onClick={() => setFilter(["AZ"])}
+              >
+                A-{">"}Z
+              </li>
+              <li
+                className={
+                  filter.includes("ZA") ? "active-filter" : "filter-options"
+                }
+                onClick={() => setFilter(["ZA"])}
+              >
+                Z-{">"}A
+              </li>
             </div>
             <div className="filter-diet-type">
               <button onClick={() => setFilter(["Diets", ...filter])}>
