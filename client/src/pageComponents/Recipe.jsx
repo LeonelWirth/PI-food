@@ -24,17 +24,9 @@ const Recipe = () => {
   };
   // Busco la data que quiero mostrar
   const search = async (data) => {
-    // let result = {};
-    // for (let i = 0; i < data.length; i++) {
-    //   if (data[i].id == id) {
-    //     // Solo 2
-    //     result = data[i];
-    //   }
-    // }
     await dispatch(getFoodCardsByID(id));
   };
   const renderSteps = () => {
-    // console.log("Recipe: ", recipe[0].analyzedInstructions[0].steps); //.analyzedInstructions[0]?.steps);
     if (recipe[0]?.analyzedInstructions[0]?.steps) {
       return <Steps steps={recipe[0].analyzedInstructions[0].steps} />;
     } else {
@@ -49,7 +41,7 @@ const Recipe = () => {
     setRecipe(data);
   }, [data]);
 
-  useEffect(() => {}, [recipe]);
+  // useEffect(() => {}, [recipe]);
   const render = (recipe) => {
     console.log("Re-render ", recipe);
     let length = recipe.length;
@@ -67,7 +59,13 @@ const Recipe = () => {
         <img src={recipe.image} />
         <p>Summary: {recipe.summary?.replace(/<[^>]*>?/g, "")}</p>
         <p>Dish Types: {recipe.dishTypes}</p>
-        <p>Diet Types: {recipe.diets}</p>
+
+        {/* <p>Diet Types: {recipe.diets}</p> */}
+        {recipe.diets[0].name ? (
+          <p>Diet Types: {recipe.diets[0].name}</p>
+        ) : (
+          <p>Diet Types: {recipe.diets}</p>
+        )}
         <p>Score: {recipe.spoonacularScore}</p>
         <p>Health Score: {recipe.healthScore}</p>
         {renderSteps()}

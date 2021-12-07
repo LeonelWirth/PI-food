@@ -1,9 +1,15 @@
 import React from "react";
 import axios from "axios";
 import "./CreateRecipe.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import FormDiets from "./FormDiets";
 
 export default function CreateRecipe(props) {
+  const diet = useSelector((state) => state.diet); // Traigo parte del estado de redux y lo asigno a diet
+  useEffect(() => {
+    console.log("Diet: ", diet);
+  }, [diet]);
   const [css, setCss] = useState({
     titleCss: true,
     summaryCss: true,
@@ -15,6 +21,8 @@ export default function CreateRecipe(props) {
   });
   const [form, setForm] = useState({
     check: false,
+    diet: [],
+    steps: [],
   });
 
   function handlerOnChange(e) {
@@ -60,8 +68,8 @@ export default function CreateRecipe(props) {
         }
         break;
       case "diet":
-        setForm((form) => ({ ...form, diet: e.target.value }));
-        console.log("diet: " + e.target.value);
+        setForm((form) => ({ ...form, diet: [...form.diet, e.target.value] }));
+        console.log("diet: ", form.diet);
         if (!form.diet) {
           setCss((prevstate) => ({ ...prevstate, dietCss: false }));
           console.log("Deberia tener una o mas dietas");
@@ -80,8 +88,19 @@ export default function CreateRecipe(props) {
         }
         break;
       case "steps":
-        setForm((form) => ({ ...form, steps: [e.target.value] })); // steps: [{ number: 1, step: e.target.value }]
-        console.log("steps: ", [e.target.value]);
+        setForm((form) => ({ ...form, newStep: [e.target.value] })); // steps: [{ number: 1, step: e.target.value }]
+        console.log("newSteps: ", [e.target.value]);
+
+        break;
+      case "add-step":
+        console.log("form.steps: ", form.steps);
+        setForm((form) => ({
+          ...form,
+          steps: [
+            ...form.steps,
+            { number: form.steps.length + 1, step: form.newStep },
+          ],
+        }));
         if (!form.steps) {
           setCss((prevstate) => ({ ...prevstate, stepsCss: false }));
           console.log("Deberia tener una imagen");
@@ -106,15 +125,14 @@ export default function CreateRecipe(props) {
       setForm((state) => ({ ...state, check: false }));
     }
   }
-
   function handlerOnSubmit(e) {
     e.preventDefault();
 
     if (form.check) {
-      console.log("voy a enviar: " + form);
+      // console.log("voy a enviar: " + form);
       try {
         axios.post("http://localhost:3001/recipe", form);
-        console.log(form);
+        // console.log(form);
         alert("Receta creada: " + form.title + " !");
       } catch (error) {
         alert("Error al crear receta: " + error);
@@ -158,12 +176,20 @@ export default function CreateRecipe(props) {
           className={css.healthScoreCss ? "valid-form" : "invalid-form"}
         ></input>
         <label>Diet:</label>
-        <input
-          type="text"
-          id="diet"
+        <select
           onChange={handlerOnChange}
           className={css.dietCss ? "valid-form" : "invalid-form"}
-        ></input>
+          id="diet"
+        >
+          <option selected disabled>
+            Chose diets
+          </option>
+          {diet.map((elem) => {
+            return <option value={elem}>{elem}</option>;
+          })}
+        </select>
+        <p>{form.diet}</p>
+
         <label>Image:</label>
         <input
           type="text"
@@ -178,8 +204,25 @@ export default function CreateRecipe(props) {
           onChange={handlerOnChange}
           className={css.stepsCss ? "valid-form" : "invalid-form"}
         ></input>
-        <button type="submit">Submit</button>
+        <button id="add-step" type="button" onClick={handlerOnChange}>
+          Add Step
+        </button>
+        <button type="submit" onClick={handlerOnChange}>
+          Submit
+        </button>
       </form>
     </div>
   );
+}
+
+{
+  /* <FormDiets diet={diet} /> */
+}
+{
+  /* <input
+  type="text"
+  id="diet"
+  onChange={handlerOnChange}
+  className={css.dietCss ? "valid-form" : "invalid-form"}
+></input> */
 }

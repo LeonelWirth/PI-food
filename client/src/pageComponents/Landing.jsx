@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "./Landing.css";
 
 var url = "https://wallpaperaccess.com/full/3521505.jpg";
 const Landing = () => {
@@ -9,7 +10,7 @@ const Landing = () => {
       <button>
         <NavLink to="/home">Let's Cook!</NavLink>
       </button>
-      <img src={url} />
+      {/* <img src={url}  /> */}
     </div>
   );
 };

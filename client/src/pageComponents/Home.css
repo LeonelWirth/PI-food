@@ -1,3 +1,15 @@
+.background {
+  background-image: url("../Image/Background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-attachment: scroll; */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
 .food-cards {
   display: flex;
   gap: 2rem;
@@ -16,17 +28,11 @@
   box-shadow: 0 0 1rem 0;
   transition: box-shadow 150ms ease;
   border-radius: 5px;
+  background-color: hsl(46, 43%, 90%);
   /*-in-out 150ms;*/
   /*         propiedad-tiempo-funcion de animacion */
 
   cursor: pointer;
-}
-
-.page-numbers {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  list-style-type: none;
 }
 
 .filters {
@@ -45,4 +51,37 @@
 
 .content {
   display: flex;
+}
+
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  list-style-type: none;
+}
+
+.page-numbers li {
+  padding: 10px;
+  border: 1px solid #efefef;
+  color: #efefef;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.page-numbers li.active {
+  background-color: #efefef;
+  color: black;
+}
+
+.page-numbers li button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #efefef;
+  font-size: 1rem;
+}
+
+.page-numbers li button:hover {
+  background-color: #efefef;
+  color: black;
 }

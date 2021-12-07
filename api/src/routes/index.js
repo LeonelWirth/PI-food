@@ -5,7 +5,7 @@ const { Recipe, Diet } = require("../db");
 // const { setRecipe } = require("../funciones/funciones");
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
-var API = API_KEY1;
+var API = API_KEY3;
 // console.log(API_KEY);
 
 // Acuerdense de agregar su router o cualquier middleware que necesiten aca
@@ -23,7 +23,10 @@ router.get("/", async (req, res) => {
   // ---------> Obtengo las 100 primeras recetas con todos sus datos
   var resultado = [];
   try {
-    dataDB = await Recipe.findAll();
+    dataDB = await Recipe.findAll({
+      include: [{ model: Diet }],
+    });
+    console.log("DataDB: ", dataDB);
     for (let i = 0; i < dataDB.length; i++) {
       resultado[i] = dataDB[i].dataValues;
       resultado[i] = {
@@ -37,8 +40,6 @@ router.get("/", async (req, res) => {
   } catch (error) {
     res.send("Error en pedido a DB: ", error);
   }
-  // console.log(dataDB);
-  // if (dataDB.length === 0) {
   try {
     await axios
       .get(
@@ -59,12 +60,6 @@ router.get("/", async (req, res) => {
     console.log("ERROR al obtener todas las recetas en el path  ", "/");
     res.send(error);
   } finally {
-    // console.log("Data recibida api: ", dataRecibida.data.results);
-    // console.log("Data recibida DB: ", dataDB[0].dataValues);
-    // console.log(
-    //   "Data concatenada: ",
-    //   dataRecibida.data.results.concat(dataDB[0].dataValues)
-    // );
   }
 });
 

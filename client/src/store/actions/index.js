@@ -13,7 +13,7 @@ export const GET_FOODCARDS_ID = "GET_FOODCARDS_ID";
 export function getFoodCards() {
   return async function (dispatch) {
     return await axios.get("http://localhost:3001/").then((response) => {
-      console.log(response.data);
+      console.log("Recetas del back", response.data);
       dispatch({
         type: GET_FOODCARDS,
         // payload: response.data.results,
@@ -155,13 +155,22 @@ export function getFoodCardsByScoreLH(data) {
 
 export function getFoodCardsByDiet(data, diet) {
   return async function (dispatch) {
+    const checkForDiets = (diet, filter) => {
+      for (let i = 0; i < diet.length; i++) {
+        if (diet[i].name.toLowerCase() === filter) return true;
+      }
+      return false;
+    };
     let result = data;
+    console.log("En getFoodCardsByDiet, result: ", result);
     for (let i = 0; i < diet.length; i++) {
-      result = result.filter((e) => {
-        let result = e.diets.includes(diet[i].toLowerCase());
-        return result;
-      });
+      result = result.filter((e) =>
+        e.diets[0].name
+          ? checkForDiets(e.diets, diet[i].toLowerCase())
+          : e.diets.includes(diet[i].toLowerCase())
+      ); //e.diets.includes(diet[i].toLowerCase()));
     }
+
     dispatch({
       type: GET_FOODCARDS_DIET,
       payload: result,

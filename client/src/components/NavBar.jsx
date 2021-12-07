@@ -1,8 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
+import SearchBar from "./SearchBar";
 
-const NavBar = () => {
+const NavBar = (props) => {
+  console.log("props: ", props.text);
   return (
     <div className="nav">
       {/* <input type="checkbox" id="nav-check"> */}
@@ -11,6 +13,12 @@ const NavBar = () => {
         <NavLink to="/" className="nav-title">
           Food App
         </NavLink>
+      </div>
+      {/* <div className="nav-text">
+        <h1>{props.text}</h1>
+      </div> */}
+      <div className="nav-search">
+        <SearchBar className="filters-searchbar" />
       </div>
       <div className="nav-links">
         {/* <NavLink to="/">Landing</NavLink> */}

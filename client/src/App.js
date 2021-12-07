@@ -4,6 +4,7 @@ import Home from "./pageComponents/Home";
 import Landing from "./pageComponents/Landing";
 import NewRecipe from "./pageComponents/NewRecipe";
 import Recipe from "./pageComponents/Recipe";
+import Default from "./pageComponents/Default";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/newRecipe" element={<NewRecipe />} />
             <Route path="/recipe" element={<Recipe />} />
             <Route path="/recipe/:id" element={<Recipe />} />
+            <Route path="*" element={<Default />} />
           </Routes>
         </div>
       </div>

@@ -78,7 +78,7 @@ const Home = () => {
       default:
         break;
     }
-    // setFilter("");
+    console.log("La data post problema es: ", data);
     renderData(data);
   }, [filter]);
 
@@ -150,11 +150,11 @@ const Home = () => {
   console.log(filter);
   return (
     <div>
-      <NavBar />
-      <h1>Home</h1>
+      <NavBar text={"Home"} />
+      {/* <h1>Home</h1> */}
       <div>
         <ul className="page-numbers">
-          <li>
+          <li className="page-button">
             <button
               onClick={handlePrevButton}
               disabled={currentPage === pages[0] ? true : false}
@@ -163,7 +163,7 @@ const Home = () => {
             </button>
           </li>
           {renderPageNumbers()}
-          <li>
+          <li className="page-button">
             <button
               onClick={handleNextButton}
               disabled={currentPage === pages[pages.length - 1] ? true : false}
@@ -173,14 +173,10 @@ const Home = () => {
           </li>
         </ul>
       </div>
-      <SearchBar className="filters-searchbar" />
       <div className="content">
         <div>
           <div className="filters">
-            <button onClick={() => setFilter(["Reset"])}>
-              {" "}
-              Remove Filters
-            </button>
+            <button onClick={() => setFilter(["Reset"])}>Remove Filters</button>
             <div className="filter-points-order">
               <button>Puntos (apply)</button>
               <li onClick={() => setFilter(["ScoreHL"])}>Higher first</li>

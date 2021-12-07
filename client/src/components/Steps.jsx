@@ -5,10 +5,10 @@ function Steps(props) {
   const renderSteps = () => {
     let steps = props.steps;
     // console.log("Steps: ", steps);
-    return steps.map((elem) => (
+    return steps.map((elem, index) => (
       <>
         <p>
-          {elem.number}: {elem.step}
+          {index + 1}: {elem.step}
         </p>
       </>
     ));

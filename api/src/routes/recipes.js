@@ -5,45 +5,28 @@ const { Recipe, Diet } = require("../db");
 
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
-var API = API_KEY2;
+var API = API_KEY4;
 router.get("/:id", async (req, res) => {
-  // LISTO
   const id = req.params.id;
-  // console.log("El parametro pasado por URL es: ", id);
   try {
     var encuestaDB = await Recipe.findAll({
       where: {
         id: id,
       },
+      include: [{ model: Diet }],
     });
-    // for (let i = 0; i < encuestaDB.length; i++) {
-    //   // resultado[i] = encuestaDB[i].dataValues;
-    //   let objData = encuestaDB[i].dataValues;
 
-    //   objData = {
-    //     ...objData,
-    //     analyzedInstructions: [
-    //       { steps: [{ number: 1, step: resultado[i].steps }] },
-    //     ],
-    //   };
-    //   encuestaDB[i].dataValues = objData;
-    // }
-    // console.log("Hasta aca pasa");
-
+    // encuestaDB[0].dataValues = {
+    //   ...encuestaDB[0].dataValues,
+    //   analyzedInstructions: [
+    //     { steps: [{ number: 1, step: encuestaDB[0].dataValues.steps }] },
+    //   ], //
+    // };
     encuestaDB[0].dataValues = {
       ...encuestaDB[0].dataValues,
-      analyzedInstructions: [
-        { steps: [{ number: 1, step: encuestaDB[0].dataValues.steps }] },
-      ], //
+      analyzedInstructions: [{ steps: encuestaDB[0].dataValues.steps }], //
     };
-    // recipe[0]?.analyzedInstructions[0]?.steps
-    console.log(
-      " DATA DE LA DB:  ",
-      encuestaDB[0].dataValues.analyzedInstructions[0].steps
-    );
   } catch (error) {
-    // throw new Error("Fallo al buscar recipe por id en la DB", error);
-    // console.log(encuestaDB);
     console.log("Error o no hay nada");
   }
   if (encuestaDB) {
@@ -67,23 +50,71 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async function (req, res) {
   var queryData = req.query.name;
+  var numRecpies = 30; // Cantidad de recetas de la peticion
+  var dataRecibida;
+  var dataDB;
+  // ---------> Obtengo las 100 primeras recetas con todos sus datos
+  var resultado = [];
   if (queryData) {
-    // console.log("Al back llega el nombre: ", req.query.name);
     try {
-      axios
+      dataDB = await Recipe.findAll({
+        include: [{ model: Diet }],
+      });
+      for (let i = 0; i < dataDB.length; i++) {
+        resultado[i] = dataDB[i].dataValues;
+        resultado[i] = {
+          ...resultado[i],
+          analyzedInstructions: [
+            { steps: [{ number: 1, step: resultado[i].steps }] },
+          ],
+        };
+      }
+    } catch (error) {
+      res.send("Error en pedido a DB: ", error);
+    }
+    try {
+      await axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API}&addRecipeInformation=true&name=${queryData}`
-        ) //&number=1
+          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API}&addRecipeInformation=true&number=${numRecpies}`
+        )
         .then((results) => {
-          console.log(
-            "Los resultados de la busqueda son: ",
-            results.data.results
-          );
-          res.send(results.data.results);
+          const response = results?.data;
+          dataRecibida = results;
+          if (dataDB[0]) {
+            // filtrar
+            let data = dataRecibida.data.results.concat(resultado);
+            let filteredRecipes = data.filter((elem) =>
+              elem.title.toLowerCase().includes(queryData.toLowerCase())
+            );
+            console.log("Data filtrada: ", filteredRecipes);
+            res.send(filteredRecipes);
+            // res.send(dataRecibida.data.results.concat(resultado));
+          } else {
+            //filtrar
+            let data = dataRecibida.data.results;
+            let filteredRecipes = data.filter((elem) =>
+              elem.title.toLowerCase().includes(queryData.toLowerCase())
+            );
+            // res.send(dataRecibida.data.results);
+            console.log("Data filtrada: ", filteredRecipes);
+            res.send(filteredRecipes);
+          }
         });
+
+      // axios
+      //   .get(
+      //     `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API}&addRecipeInformation=true&name=${queryData}`
+      //   ) //&number=1
+      //   .then((results) => {
+      //     console.log(
+      //       "Los resultados de la busqueda son: ",
+      //       results.data.results
+      //     );
+      //     res.send(results.data.results);
+      //   });
     } catch (error) {
       res.send(error);
-      throw new Error("Error GET en el path/:id :", error);
+      throw new Error("Error GET en el path/recipes/query", error);
     }
   } else {
     res.send("Entre a recipes pero sin valor en query.name");
