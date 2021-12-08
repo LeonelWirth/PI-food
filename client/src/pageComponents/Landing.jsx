@@ -6,9 +6,9 @@ const Landing = () => {
   return (
     <div className={"background"}>
       <h1>Ready to Cook?</h1>
-      <button>
-        <NavLink to="/home">Let's Cook!</NavLink>
-      </button>
+      <NavLink to="/home">
+        <button className="navlink">Let's Cook!</button>
+      </NavLink>
     </div>
   );
 };

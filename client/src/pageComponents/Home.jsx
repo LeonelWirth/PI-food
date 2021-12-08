@@ -28,15 +28,15 @@ const Home = () => {
   const [filter, setFilter] = useState([]);
   const renderData = (cardsToRender) => {
     return (
-      <ul className="food-cards">
+      <div className="food-cards">
         {cardsToRender.map((elem, index) => {
           return (
-            <li className="food-item" key={index}>
+            <div className="food-item" key={index}>
               <FoodCard foodCard={elem} />
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     );
   };
 
@@ -184,53 +184,55 @@ const Home = () => {
             <button onClick={() => setFilter(["Reset"])}>Remove Filters</button>
             <div className="filter-points-order">
               <button>Puntos (apply)</button>
-              <li
-                className={
-                  filter.includes("ScoreHL")
-                    ? "active-filter"
-                    : "filter-options"
-                }
-                onClick={() => setFilter(["ScoreHL"])}
-              >
-                Higher first
-              </li>
-              <li
-                className={
-                  filter.includes("ScoreLH")
-                    ? "active-filter"
-                    : "filter-options"
-                }
-                onClick={() => setFilter(["ScoreLH"])}
-              >
-                Lower first
-              </li>
-              {/* </ul> */}
+              <ul>
+                <li
+                  className={
+                    filter.includes("ScoreHL")
+                      ? "active-filter"
+                      : "filter-options"
+                  }
+                  onClick={() => setFilter(["ScoreHL"])}
+                >
+                  Higher first
+                </li>
+                <li
+                  className={
+                    filter.includes("ScoreLH")
+                      ? "active-filter"
+                      : "filter-options"
+                  }
+                  onClick={() => setFilter(["ScoreLH"])}
+                >
+                  Lower first
+                </li>
+              </ul>
             </div>
             <div className="filter-alphabetic-order">
               <button>Alfabeticamente (apply)</button>
-              <li
-                className={
-                  filter.includes("AZ") ? "active-filter" : "filter-options"
-                }
-                onClick={() => setFilter(["AZ"])}
-              >
-                A-{">"}Z
-              </li>
-              <li
-                className={
-                  filter.includes("ZA") ? "active-filter" : "filter-options"
-                }
-                onClick={() => setFilter(["ZA"])}
-              >
-                Z-{">"}A
-              </li>
+              <ul>
+                <li
+                  className={
+                    filter.includes("AZ") ? "active-filter" : "filter-options"
+                  }
+                  onClick={() => setFilter(["AZ"])}
+                >
+                  A-{">"}Z
+                </li>
+                <li
+                  className={
+                    filter.includes("ZA") ? "active-filter" : "filter-options"
+                  }
+                  onClick={() => setFilter(["ZA"])}
+                >
+                  Z-{">"}A
+                </li>
+              </ul>
             </div>
             <div className="filter-diet-type">
               <button onClick={() => setFilter(["Diets", ...filter])}>
                 Tipo de dieta (apply)
               </button>
-
-              {renderDiets(diet)}
+              <ul>{renderDiets(diet)}</ul>
             </div>
           </div>
         </div>

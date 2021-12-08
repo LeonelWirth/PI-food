@@ -14,13 +14,6 @@ const Recipe = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.food); // Traigo parte del estado de redux y lo asigno a data
   const diet = useSelector((state) => state.diet); // Traigo parte del estado de redux y lo asigno a diea
-  const check = (id) => {
-    if (!id) {
-      alert(
-        "Id de receta no valido, vuelva a home y haga click en una receta para ver mas informacion"
-      );
-    }
-  };
   // Busco la data que quiero mostrar
   const search = async (data) => {
     await dispatch(getFoodCardsByID(id));
@@ -55,22 +48,40 @@ const Recipe = () => {
       <div className="recipe-card">
         <h1>{recipe.title}</h1>
         <img src={recipe.image} />
-        <p>Summary: {recipe.summary?.replace(/<[^>]*>?/g, "")}</p>
-        <p>Dish Types: {recipe.dishTypes}</p>
-
-        {/* <p>Diet Types: {recipe.diets}</p> */}
+        <p className="recipe-subtitle">Summary:</p>
+        <p>{recipe.summary?.replace(/<[^>]*>?/g, "")}</p>
+        <p className="recipe-subtitle">Dish Types:</p>
+        <p> {recipe.dishTypes}</p>
+        <p className="recipe-subtitle">Diet Types:</p>
         {recipe.diets[0].name ? (
-          <p>Diet Types: {recipe.diets[0].name}</p>
+          <>
+            {recipe.diets[0].name.map((elem) => {
+              return (
+                <p className="recipe-li" key={Math.random()}>
+                  {elem}
+                </p>
+              );
+            })}
+          </>
         ) : (
-          <p>Diet Types: {recipe.diets}</p>
+          <>
+            {recipe.diets.map((elem) => {
+              return (
+                <p className="recipe-li" key={Math.random()}>
+                  {elem}
+                </p>
+              );
+            })}
+          </>
         )}
+
+        <p className="recipe-subtitle">Score:</p>
         <p>
-          Score:
           {recipe.spoonacularScore ? recipe.spoonacularScore : recipe.score}
         </p>
-        <p>Health Score: {recipe.healthScore}</p>
+        <p className="recipe-subtitle">Health Score: </p>
+        <p>{recipe.healthScore}</p>
         {renderSteps()}
-        {/* <div>{renderSteps}</div> */}
       </div>
     );
   };

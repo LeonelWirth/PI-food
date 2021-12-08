@@ -2,3 +2,11 @@
   text-decoration: none;
   color: inherit;
 }
+
+.foodcard-ul {
+  margin-bottom: 20px;
+}
+
+.foodcard-subtitle {
+  font-weight: bold;
+}

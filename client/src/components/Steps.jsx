@@ -1,4 +1,5 @@
 import React from "react";
+import "./Steps.css";
 
 function Steps(props) {
   console.log("Entre a steps");
@@ -6,17 +7,15 @@ function Steps(props) {
     let steps = props.steps;
     // console.log("Steps: ", steps);
     return steps.map((elem, index) => (
-      <>
-        <p>
-          {index + 1}: {elem.step}
-        </p>
-      </>
+      <li className="step-li" key={Math.random()}>
+        <p className="recipe-subtitle">{index + 1}:</p> {elem.step}
+      </li>
     ));
   };
   return (
     <div>
-      <p>Steps: </p>
-      {renderSteps()}
+      <p className="recipe-subtitle">Steps: </p>
+      <ul>{renderSteps()}</ul>
     </div>
   );
 }
