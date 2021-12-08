@@ -64,7 +64,10 @@ const Recipe = () => {
         ) : (
           <p>Diet Types: {recipe.diets}</p>
         )}
-        <p>Score: {recipe.spoonacularScore}</p>
+        <p>
+          Score:
+          {recipe.spoonacularScore ? recipe.spoonacularScore : recipe.score}
+        </p>
         <p>Health Score: {recipe.healthScore}</p>
         {renderSteps()}
         {/* <div>{renderSteps}</div> */}

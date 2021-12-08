@@ -1,4 +1,5 @@
 import axios from "axios";
+import { bubbleSort } from "../funciones/funciones";
 
 export const GET_FOODCARDS = "GET_FOODCARDS";
 export const GET_DIETTYPES = "GET_DIETTYPES";
@@ -71,7 +72,7 @@ export function getFoodCardsZA(data) {
     let result = [];
     let dataCopy = [];
     for (let i = 0; i < data.length; i++) {
-      arr.push(data[i].title);
+      arr.push(data[i].title.toLowerCase());
       dataCopy.push(data[i]);
     }
     arr.sort();
@@ -79,7 +80,7 @@ export function getFoodCardsZA(data) {
     let i = 0;
     let j = 0;
     while (j < dataCopy.length) {
-      if (dataCopy[i].title === arr[j]) {
+      if (dataCopy[i].title.toLowerCase() === arr[j]) {
         result.push(dataCopy[i]);
         j += 1;
       }
@@ -100,23 +101,28 @@ export function getFoodCardsByScoreHL(data) {
     let result = [];
     let dataCopy = [];
     for (let i = 0; i < data.length; i++) {
-      arr.push(data[i].spoonacularScore);
+      arr.push(
+        data[i].score ? parseInt(data[i].score) : data[i].spoonacularScore
+      );
       dataCopy.push(data[i]);
     }
     // ahora ordeno la data
-    console.log("Arr: ", arr);
-    arr.sort();
+    arr = bubbleSort(arr);
+    // console.log("Arr: ", bubbleSort(arr));
     let i = 0;
     let j = 0;
     while (j < dataCopy.length) {
-      if (dataCopy[i].spoonacularScore === arr[j]) {
+      let comp = parseInt(dataCopy[i].score)
+        ? parseInt(dataCopy[i].score)
+        : dataCopy[i].spoonacularScore;
+      if (comp === arr[j]) {
         result.push(dataCopy[i]);
         j += 1;
       }
       i += 1;
       if (i === dataCopy.length) i = 0;
     }
-
+    result = result.reverse();
     await dispatch({
       type: GET_FOODCARDS_SCORE_HL,
       payload: result,
@@ -127,26 +133,33 @@ export function getFoodCardsByScoreHL(data) {
 export function getFoodCardsByScoreLH(data) {
   return async function (dispatch) {
     let arr = [];
-    let result = [];
     let dataCopy = [];
     for (let i = 0; i < data.length; i++) {
-      arr.push(data[i].spoonacularScore);
+      arr.push(
+        data[i].score ? parseInt(data[i].score) : data[i].spoonacularScore
+      );
       dataCopy.push(data[i]);
     }
     // ahora ordeno la data
-    console.log("Arr: ", arr);
-    arr.sort();
+    arr = bubbleSort(arr);
+
     let i = 0;
     let j = 0;
+    let result = [];
+
     while (j < dataCopy.length) {
-      if (dataCopy[i].spoonacularScore === arr[j]) {
+      let comp = parseInt(dataCopy[i].score)
+        ? parseInt(dataCopy[i].score)
+        : dataCopy[i].spoonacularScore;
+      if (comp === arr[j]) {
         result.push(dataCopy[i]);
         j += 1;
       }
       i += 1;
       if (i === dataCopy.length) i = 0;
     }
-    result = result.reverse();
+
+    // console.log("Arr: ", result);
     await dispatch({
       type: GET_FOODCARDS_SCORE_LH,
       payload: result,
