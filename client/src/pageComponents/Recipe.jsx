@@ -55,10 +55,10 @@ const Recipe = () => {
         <p className="recipe-subtitle">Diet Types:</p>
         {recipe.diets[0].name ? (
           <>
-            {recipe.diets[0].name.map((elem) => {
+            {recipe.diets.map((elem) => {
               return (
                 <p className="recipe-li" key={Math.random()}>
-                  {elem}
+                  {elem.name}
                 </p>
               );
             })}

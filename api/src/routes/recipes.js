@@ -5,7 +5,7 @@ const { Recipe, Diet } = require("../db");
 
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
-var API = API_KEY4;
+var API = API_KEY2;
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {

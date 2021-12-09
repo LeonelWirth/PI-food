@@ -5,7 +5,7 @@ const { Recipe, Diet } = require("../db");
 // const { setRecipe } = require("../funciones/funciones");
 const { API_KEY1, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6, API_KEY7 } =
   process.env;
-var API = API_KEY3;
+var API = API_KEY1;
 // console.log(API_KEY);
 
 // Acuerdense de agregar su router o cualquier middleware que necesiten aca
@@ -16,7 +16,7 @@ router.use(express.json()); //Middleware!!!
 // Ejemplo: router.use('/auth', authRouter);
 
 router.get("/", async (req, res) => {
-  var numRecpies = 15; // Cantidad de recetas de la peticion
+  var numRecpies = 100; // Cantidad de recetas de la peticion
   // var dataRecibida = await getRecipes(numRecpies);
   var dataRecibida;
   var dataDB;

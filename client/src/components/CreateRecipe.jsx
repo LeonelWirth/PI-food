@@ -142,9 +142,46 @@ export default function CreateRecipe(props) {
       alert("Todos los campos del formulario deben completarse correctamente");
     }
   }
+  function arreglosIguales(arr1, arr2) {
+    // Funcion de comparacion
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+  } // Necesaria para deleteStep y deleteDiet
+
+  function deleteStep(e) {
+    let id = e.target.id;
+    let arr = form.steps; // {number:xxx,step:xxx}
+
+    let result = arr.filter((elem) => {
+      // Filtro
+      return !arreglosIguales(elem.step, [id]);
+    });
+
+    // Acomodo los numeros
+    result.map((elem, index) => (elem.number = index + 1));
+
+    setForm({ ...form, steps: result });
+  }
+
+  function deleteDiet(e) {
+    let id = e.target.id;
+    console.log("Id: ", id);
+    let arr = form.diet;
+    console.log("arr prev: ", arr);
+    let result = arr.filter((elem) => {
+      // Filtro
+      return !arreglosIguales(elem, id);
+    });
+    console.log("arr post: ", result);
+    setForm({ ...form, diet: result });
+  }
+
   return (
     <div className="form-container">
-      <h1>Create a new Recipe</h1>
+      <h1>Create a New Recipe</h1>
       <form onSubmit={handlerOnSubmit} className="form">
         <label>Name:</label>
         <input
@@ -197,6 +234,19 @@ export default function CreateRecipe(props) {
             );
           })}
         </select>
+        <ul>
+          {form.diet.map((elem, index) => {
+            return (
+              <li key={Math.random()}>
+                {index + 1}: {elem}
+                <button type="button" id={elem} onClick={deleteDiet}>
+                  X
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+
         <p>{form.diet}</p>
         <label>Image:</label>
         <input
@@ -214,6 +264,18 @@ export default function CreateRecipe(props) {
           onChange={handlerOnChange}
           className={css.stepsCss ? "valid-form" : "invalid-form"}
         ></input>
+        <ul>
+          {form.steps.map((elem) => {
+            return (
+              <li key={Math.random()}>
+                {elem.number}: {elem.step}
+                <button type="button" id={elem.step} onClick={deleteStep}>
+                  X
+                </button>
+              </li>
+            );
+          })}
+        </ul>
         <button id="add-step" type="button" onClick={handlerOnChange}>
           Add Step
         </button>

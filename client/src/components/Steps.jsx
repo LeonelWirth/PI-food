@@ -8,7 +8,9 @@ function Steps(props) {
     // console.log("Steps: ", steps);
     return steps.map((elem, index) => (
       <li className="step-li" key={Math.random()}>
-        <p className="recipe-subtitle">{index + 1}:</p> {elem.step}
+        <p className="recipe-subtitle">
+          {index + 1}: {elem.step}{" "}
+        </p>
       </li>
     ));
   };

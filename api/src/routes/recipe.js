@@ -21,10 +21,16 @@ router.post("/", async (req, res) => {
       },
     });
 
-    return await recipeCreated
-      .addDiet(dietDB)
-      .then((recipe) => res.send(recipe))
-      .catch((error) => res.send("Error: ", error));
+    // console.log("Lo que trae el find ALL", dietDB);
+
+    for (let elem of dietDB) {
+      await recipeCreated.addDiet(elem);
+    }
+    res.send(recipeCreated.title);
+    // return await recipeCreated
+    // .addDiet(dietDB)
+    // .then((recipe) => res.send(recipe))
+    // .catch((error) => res.send("Error: ", error));
   } catch (error) {
     throw new Error("Error en recipe: ", error);
   }

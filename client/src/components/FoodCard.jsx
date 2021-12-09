@@ -14,12 +14,13 @@ export default function FoodCard(props) {
           <h2>{props.foodCard.title}</h2>
           <img src={props.foodCard.image} />
           <p className="foodcard-subtitle">Diets:</p>
-          {props.foodCard.diets[0].name ? (
+          {props.foodCard.diets[0]?.name ? (
             <ul className="foodcard-ul">
-              {props.foodCard.diets[0].name.map((elem) => {
+              {props.foodCard.diets.map((elem) => {
                 return (
+                  //props.foodCard.diets[0].name.map
                   <li className="foodcard-li" key={Math.random()}>
-                    {elem}
+                    {elem.name}
                   </li>
                 );
               })}

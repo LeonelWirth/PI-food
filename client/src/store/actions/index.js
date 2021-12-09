@@ -210,7 +210,7 @@ export function search(data, title) {
     return await axios
       .get(`http://localhost:3001/recipes?name=${title}`)
       .then((response) => {
-        console.log("Del back llega: ", response.data);
+        // console.log("Del back llega: ", response.data);
         dispatch({
           type: SEARCH_TITLE,
           payload: response.data,
